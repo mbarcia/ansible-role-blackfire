@@ -41,5 +41,4 @@ blackfire_http_proxy: ""
 blackfire_https_proxy: ""
 blackfire_timeout: '15s'
 blackfire_log_file: 'stderr'
-blackfire_socket: 'unix:///var/run/blackfire/agent.sock'
 blackfire_spec: ''
