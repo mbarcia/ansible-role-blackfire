@@ -6,15 +6,19 @@
 
 - include: os_family/Debian.yml
   when: ansible_os_family == 'Debian'
+  tags: provision
 
 - include: os_family/RedHat.yml
   when: ansible_os_family == 'RedHat'
+  tags: provision
 
 - name: Install the blackfire-agent package
   package: name=blackfire-agent state=present
+  tags: provision
 
 - name: Install the blackfire-php package
   package: name=blackfire-php state=present
+  tags: provision
 
 - name: Create agent configuration
   template:
@@ -24,6 +28,7 @@
     group=0
     mode=0644
   register: agent_configuration_state
+  tags: configuration
 
 - name: Create CLI tool configuration file
   template:
@@ -32,6 +37,7 @@
     owner="{{ blackfire_user }}"
     mode=0644
   when: blackfire_client_id|default('') != "" and blackfire_client_token|default('') != ""
+  tags: configuration
 
 - name: Service blackfire-agent restart
   sudo: true
@@ -40,7 +46,9 @@
     - restart php-fpm
     - restart apache
   when: agent_configuration_state|changed
+  tags: deployment
 
 - name: Restart apache if enable in configuration
   service: name=apache2 state=restarted
   when: blackfire_apache_enable
+  tags: deployment
