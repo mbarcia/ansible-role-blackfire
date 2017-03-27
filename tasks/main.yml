@@ -13,11 +13,17 @@
   tags: provision
 
 - name: Install the blackfire-agent package
-  package: name=blackfire-agent state=present
+  package: 
+    name: blackfire-agent
+    state: present
+    use: apt
   tags: provision
 
 - name: Install the blackfire-php package
-  package: name=blackfire-php state=present
+  package: 
+    name: blackfire-php
+    state: present 
+    use: apt
   tags: provision
 
 - name: Create agent configuration
